@@ -1,0 +1,17 @@
+from playwright.sync_api import Page, Locator
+
+
+class FinishPage:
+    def __init__(self, page: Page):
+        self.page = page
+        self.finish_header = page.get_by_test_id("complete-header")
+        self.back_to_products_button = page.get_by_role('button', name='Back Home')
+        
+    
+    def get_finish_text(self) -> str:
+        finish_text = "Thank you for your order!"
+        return finish_text
+    
+    
+    def go_to_back_to_products(self) -> None:
+        self.back_to_products_button.click()
