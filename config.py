@@ -6,7 +6,7 @@ load_dotenv()
 
 
 class Config:
-    USERNAME = os.getenv('USERNAME')
+    USER_NAME = os.getenv('USER_NAME')
     PASSWORD = os.getenv('PASSWORD')
     LOCKED_USER = os.getenv('LOCKED_USER')
     

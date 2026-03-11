@@ -2,6 +2,7 @@ import pytest
 from playwright.sync_api import Page, expect
 from logic.flow import Flow
 from logic.routes import Routes
+import allure
 
 
 @pytest.fixture
@@ -15,12 +16,16 @@ def user_on_finish(page: Page) -> Flow:
     return flow
 
 
+@allure.title("Кнопка 'Back to Products' возвращает на страницу инвентаря")
 @pytest.mark.smoke
-def test_back_to_broducts_button(user_on_finish: Flow) -> None:
+def test_back_to_products_button(user_on_finish: Flow) -> None:
     user_on_finish.finish_page.go_to_back_to_products()
-    expect(user_on_finish.page).to_have_url(Routes.INVENTORY_URL)
+    with allure.step("Проверка URL -> /inventory.html"):
+        expect(user_on_finish.page).to_have_url(Routes.INVENTORY_URL)
     
-   
+
+@allure.title("Тест отображения текста 'THANK YOU FOR YOUR ORDER' на странице завершения заказа")   
 @pytest.mark.smoke 
 def test_finish_header(user_on_finish: Flow) -> None:
-    expect(user_on_finish.finish_page.finish_header).to_have_text(user_on_finish.finish_page.get_finish_text())
+    with allure.step("Проверка отображения текста 'THANK YOU FOR YOUR ORDER' на странице завершения заказа"):
+        expect(user_on_finish.finish_page.finish_header).to_have_text(user_on_finish.finish_page.get_finish_text())

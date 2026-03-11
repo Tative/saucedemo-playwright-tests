@@ -1,4 +1,6 @@
 from playwright.sync_api import Page
+import allure
+
 
 class InventoryPage:
     def __init__(self, page: Page):
@@ -12,22 +14,34 @@ class InventoryPage:
         self.inventory_items = page.locator(".inventory_item")
         self.cart_items = page.locator(".cart_item")
 
+
+    @allure.step("Добавление рюкзака в корзину")
     def add_backpack(self):
         self.add_backpack_button.click()
 
+
+    @allure.step("Добавление велосипеда в корзину")
     def add_bike(self):
         self.add_bike_button.click()
         
+        
+    @allure.step("Добавление рюкзака и велосипеда в корзину") 
     def add_items(self):
         self.add_backpack()
         self.add_bike()
         
+    
+    @allure.step("Удаление рюкзака из корзины")    
     def remove_backpack_from_cart(self):
         self.remove_backpack.click() 
         
+     
+    @allure.step("Удаление велосипеда из корзины")
     def remove_bike_from_cart(self):
         self.remove_bike.click()
         
+        
+    @allure.step("Переход в корзину")
     def go_to_cart(self):
         self.cart_button.click()
     

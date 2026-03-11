@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 from config import Config
 from pages.login_page_pom import LoginPage
@@ -19,26 +20,31 @@ class Flow:
         self.finish_page = FinishPage(page)
         
         
-    def authenticate(self, username: str = Config.USERNAME, password: str = Config.PASSWORD) -> None:
+    @allure.step("Аутентификация пользователя с именем: {username}")
+    def authenticate(self, username: str = Config.USER_NAME, password: str = Config.PASSWORD) -> None:
         self.login_page.goto()
         self.login_page.login(username, password)
-
         
+
+    @allure.step("Добавление товаров в корзину и переход на страницу корзины")    
     def add_items_and_go_to_cart(self) -> None:
         self.inventory_page.add_bike()
         self.inventory_page.add_backpack()
         self.inventory_page.go_to_cart()
+        
 
-
+    @allure.step("Переход на страницу оформления заказа")
     def go_to_checkout(self) -> None:
         self.cart_page.go_to_checkout()
         
         
+    @allure.step("Переход на страницу обзора заказа")
     def go_to_checkout_overview(self) -> None:
         self.checkout_page.input_info(Config.FIRST_NAME, Config.LAST_NAME, Config.POSTAL_CODE)
         self.checkout_page.go_to_continue()
         
         
+    @allure.step("Переход на финальную страницу")
     def go_to_finish_page(self) -> None:
         self.checkout_overview_page.go_to_finish()
         
