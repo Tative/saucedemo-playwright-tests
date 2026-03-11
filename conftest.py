@@ -15,10 +15,14 @@ def pytest_runtest_makereport(item, call):
 
     if report.when == 'call' and report.failed:
         page = None
-        if 'page' in item.funcargs:
-            page = item.funcargs['page']
-        elif 'user_in_checkout' in item.funcargs:
-            page = item.funcargs['user_in_checkout'].page
+        
+        for fixture_value in item.funcargs.values():
+            if hasattr(fixture_value, 'screenshot'):  # это Page объект
+                page = fixture_value
+                break
+            if hasattr(fixture_value, 'page') and hasattr(fixture_value.page, 'screenshot'):  # это Flow объект
+                page = fixture_value.page
+                break
         
         if page:
             allure.attach(

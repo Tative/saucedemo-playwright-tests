@@ -63,7 +63,7 @@ def test_total_price(user_in_overview: Flow) -> None:
         expect(user_in_overview.checkout_overview_page.total_price).to_contain_text(str(total_expected))
    
  
-@allure.title("Тест на количесво товаров в корзине")
+@allure.title("Тест на количество товаров в корзине")
 @pytest.mark.regression 
 def test_items_in_cart(user_in_overview: Flow) -> None:
     with allure.step("Проверка: количество товаров в корзине равно 2"):

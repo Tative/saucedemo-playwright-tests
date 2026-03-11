@@ -3,7 +3,6 @@ from playwright.sync_api import Page, expect
 from pages.login_page_pom import LoginPage
 from logic.routes import Routes
 from config import Config
-from loguru import logger
 import allure
 
 

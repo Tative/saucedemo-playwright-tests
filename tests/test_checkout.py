@@ -31,12 +31,12 @@ def test_invalid_info(user_in_checkout: Flow, first_name: str,
         expect(user_in_checkout.checkout_page.error).to_have_text(error)
     
     
-@allure.title("Кнопка 'Cancel' возвращает на страницу инвентаря")
+@allure.title("Кнопка 'Cancel' возвращает на страницу корзины")
 @pytest.mark.smoke   
 def test_cancel_button(user_in_checkout: Flow) -> None:
     user_in_checkout.checkout_page.go_to_cancel()
     
-    with allure.step("Проверка: URL -> /inventory.html после нажатия кнопки 'Cancel'"):
+    with allure.step("Проверка: URL -> /cart.html после нажатия кнопки 'Cancel'"):
         expect(user_in_checkout.page).to_have_url(Routes.CART_URL)
 
 

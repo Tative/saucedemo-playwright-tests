@@ -14,6 +14,6 @@ class FinishPage:
         return finish_text
     
     
-    @allure.step("Переход к странице инвенторя при нажатии кнопки 'Back Home")
+    @allure.step("Переход к странице инвентаря при нажатии кнопки 'Back Home")
     def go_to_back_to_products(self) -> None:
         self.back_to_products_button.click() 

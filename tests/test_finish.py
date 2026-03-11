@@ -27,5 +27,6 @@ def test_back_to_products_button(user_on_finish: Flow) -> None:
 @allure.title("Тест отображения текста 'THANK YOU FOR YOUR ORDER' на странице завершения заказа")   
 @pytest.mark.smoke 
 def test_finish_header(user_on_finish: Flow) -> None:
+    
     with allure.step("Проверка отображения текста 'THANK YOU FOR YOUR ORDER' на странице завершения заказа"):
         expect(user_on_finish.finish_page.finish_header).to_have_text(user_on_finish.finish_page.get_finish_text())
