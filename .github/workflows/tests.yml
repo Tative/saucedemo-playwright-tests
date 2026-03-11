@@ -1,0 +1,53 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Клонирование репозитория
+        uses: actions/checkout@v4
+
+      - name: Установка Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Установка зависимостей
+        run: pip install -r requirements.txt
+
+      - name: Установка браузеров Playwright
+        run: playwright install --with-deps chromium
+
+      - name: Запуск тестов
+        env:
+          USER_NAME: ${{ secrets.USER_NAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          LOCKED_USER: ${{ secrets.LOCKED_USER }}
+          FIRST_NAME: ${{ secrets.FIRST_NAME }}
+          LAST_NAME: ${{ secrets.LAST_NAME }}
+          POSTAL_CODE: ${{ secrets.POSTAL_CODE }}
+        run: |
+          pytest --alluredir=allure-results
+
+      - name: Генерация Allure-отчёта
+        uses: simple-elf/allure-report-action@v1
+        if: always()
+        with:
+          allure_results: allure-results
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Публикация отчёта на GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
