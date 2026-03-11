@@ -16,11 +16,11 @@ class LoginPage:
         self.page.goto("/")
         
         
-    @allure.step("Ввод логина и пароля и нажатие кнопки входа") 
     def login(self, username: str, password: str) -> None:
-        self.username_field.fill(username)
-        self.password_field.fill(password)
-        self.login_button.click()
+        with allure.step(f"Авторизация пользователя '{username}'"):
+            self.username_field.fill(username)
+            self.password_field.fill(password)
+            self.login_button.click()
         
     
         

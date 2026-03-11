@@ -26,11 +26,10 @@ def test_valid_login(login_page: LoginPage) -> None:
 @allure.title("Различные сценарии неуспешной авторизации")
 @pytest.mark.regression
 @pytest.mark.parametrize('username, password, error_message', [
-    ('', Config.PASSWORD, 'Epic sadface: Username is required'),#пароль отображается в отвечет allure, надо исправить
+    ('', 'any_password', 'Epic sadface: Username is required'),
     (Config.USER_NAME, '', 'Epic sadface: Password is required'),
-    ('invalid_user', 'invalid_password', 'Epic sadface: Username and password do not match any user in this service'),
-    (Config.LOCKED_USER, Config.PASSWORD, 'Epic sadface: Sorry, this user has been locked out.')
-])
+    ('invalid_user', 'invalid_password', 'Epic sadface: Username and password do not match any user in this service')
+    ])
 def test_invalid_login(login_page: LoginPage, username: str, password: str, error_message: str) -> None:
     allure.dynamic.title(f"Неуспешная авторизация: '{error_message}'")
     login_page.login(username, password)
@@ -38,3 +37,12 @@ def test_invalid_login(login_page: LoginPage, username: str, password: str, erro
     with allure.step(f"Проверка ошибки: '{error_message}'"):
        expect(login_page.error_message).to_have_text(error_message)
     
+    
+@allure.title("Заблокированный пользователь не может войти")
+@pytest.mark.regression
+def test_locked_user_login(login_page: LoginPage) -> None:
+    login_page.login(Config.LOCKED_USER, Config.PASSWORD)
+    
+    with allure.step("Проверка ошибки о блокировке"):
+        expect(login_page.error_message).to_have_text(
+            'Epic sadface: Sorry, this user has been locked out.')

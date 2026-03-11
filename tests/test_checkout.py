@@ -35,9 +35,10 @@ def test_invalid_info(user_in_checkout: Flow, first_name: str,
 @pytest.mark.smoke   
 def test_cancel_button(user_in_checkout: Flow) -> None:
     user_in_checkout.checkout_page.go_to_cancel()
+    
     with allure.step("Проверка: URL -> /inventory.html после нажатия кнопки 'Cancel'"):
-        # expect(user_in_checkout.page).to_have_url(Routes.CART_URL) это строка правильная.
-        expect(user_in_checkout.page).to_have_url(Routes.INVENTORY_URL) # это намеренная ошибка для алюра. потом надо изменить обратно
+        expect(user_in_checkout.page).to_have_url(Routes.CART_URL)
+
 
 
 @allure.title("Кнопка 'Continue' направляет на страницу обзора заказа")
